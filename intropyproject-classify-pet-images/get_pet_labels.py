@@ -64,30 +64,13 @@ def get_pet_labels(image_dir):
       List. The list contains for following item:
          index 0 = pet image label (string)
     """
-    # Replace None with the results_dic dictionary that you created with this
-    # function
     
     # Retrieve the filenames from folder pet_images/
     filename_list = listdir(image_dir)
-    filename_list.sort()                # Group pets by name by sorting
-
-    pet_key=[]                          # Use list container for labels
-    pet_value=[[]]                      # Use list of lists for file names
+    
+    # Creates empty dictionary named results_dic
+    results_dic = dict()
     for file_name in filename_list:
         label = creat_label_from_name(file_name)
-        if(len(pet_key) == 0):
-            # Added to handle out of index exception
-            # The first file name will automatically be added to first element of list
-            pet_key.append(label)
-            pet_value.append([file_name])
-        elif (label == pet_key[-1]):
-            # If label already exists just add this file name to equivlelent file names list
-            # We need only to check the last label as the list is already listed
-            pet_value[-1].append(file_name)
-        else:
-            # If label doesn't exist, Add new entry as label and file name list
-            pet_key.append(label)
-            pet_value.append([file_name])
-    
-    # Use the lists to return dictionary and the lists will be distroyed 
-    return zip(pet_key,pet_value)
+        results_dic.update({file_name:[label]})
+    return results_dic
