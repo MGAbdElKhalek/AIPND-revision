@@ -65,9 +65,9 @@ def calculates_results_stats(results_dic):
                     a percentage or a count) where the key is the statistic's 
                      name (starting with 'pct' for percentage or 'n' for count)
                      and the value is the statistic's value. See comments above
-                     and the classroom Item XX Calculating Results for details
+                     and the previous topic Calculating Results in the class for details
                      on how to calculate the counts and statistics.
-    """        
+    """    
     # Initial dictionary for results with init values of zero
     results_stats_dic = {'n_images':0,
                          'n_dogs_img':0,
@@ -78,6 +78,7 @@ def calculates_results_stats(results_dic):
                          'n_correct_breed':0, 
                          'pct_match':0, 
                          'pct_correct_dogs':0, 
+                         'pct_correct_breed':0,
                          'pct_correct_notdogs':0,                      
                         }
 #          keys:
@@ -93,8 +94,7 @@ def calculates_results_stats(results_dic):
 #            pct_correct_breed - percentage of correctly classified dog breeds
 #            pct_correct_notdogs - percentage of correctly classified NON-dogs
 
-    # Number of images quals 
-    results_stats_dic['n_images'] = len(results_dic)
+
     # Loop on images classification results and update statistics
     for image in results_dic.keys():
         
@@ -113,14 +113,18 @@ def calculates_results_stats(results_dic):
         # Dog and matched
         if results_dic[image][2] and results_dic[image][3]:
             results_stats_dic['n_correct_breed'] += 1
-        
-    # We calculated the number of images for dogs so simply the rest are for Non-dogs
-    results_stats_dic['n_notdogs_img'] = results_stats_dic['n_images'] - results_stats_dic['n_dogs_img']
-    # pct_correct_dogs
-    results_stats_dic['pct_correct_dogs'] = results_stats_dic['n_correct_dogs'] / results_stats_dic['n_dogs_img'] *100
-    # pct_correct_breed
-    results_stats_dic['pct_correct_breed'] = results_stats_dic['n_correct_breed'] / results_stats_dic['n_dogs_img'] *100
-    # pct_correct_notdogs
-    results_stats_dic['pct_correct_notdogs'] = results_stats_dic['n_correct_notdogs'] / results_stats_dic['n_notdogs_img'] *100
+ 
+        # Number of images quals 
+        results_stats_dic['n_images'] = len(results_dic)
+        # We calculated the number of images for dogs so simply the rest are for Non-dogs
+        results_stats_dic['n_notdogs_img'] = results_stats_dic['n_images'] - results_stats_dic['n_dogs_img']
+        # pct_correct_dogs
+        results_stats_dic['pct_match'] = results_stats_dic['n_match'] / results_stats_dic['n_images'] *100
+        # pct_correct_dogs
+        results_stats_dic['pct_correct_dogs'] = results_stats_dic['n_correct_dogs'] / results_stats_dic['n_dogs_img'] *100
+        # pct_correct_breed
+        results_stats_dic['pct_correct_breed'] = results_stats_dic['n_correct_breed'] / results_stats_dic['n_dogs_img'] *100
+        # pct_correct_notdogs
+        results_stats_dic['pct_correct_notdogs'] = results_stats_dic['n_correct_notdogs'] / results_stats_dic['n_notdogs_img'] *100
     
     return results_stats_dic
