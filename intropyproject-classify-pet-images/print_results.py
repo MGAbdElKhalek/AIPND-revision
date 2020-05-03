@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/print_results.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:
+# PROGRAMMER: Mohamed Gamal AbdElKhalek
+# DATE CREATED: 2/5/2020
 # REVISED DATE: 
 # PURPOSE: Create a function print_results that prints the results statistics
 #          from the results statistics dictionary (results_stats_dic). It 
@@ -62,5 +62,39 @@ def print_results(results_dic, results_stats_dic, model,
     Returns:
            None - simply printing results.
     """    
-    None
-                
+    # Prints summary statistics over the run
+    print("\n\n*** Results Summary for CNN Model Architecture",model.upper(), 
+          "***")
+    line_for_numbers = ""
+    line_for_prcent = ""
+    for stat in results_stats_dic.keys():
+        if(stat[0] == 'n'):
+            line_for_numbers += stat + ":" + str(results_stats_dic[stat]) + " "
+        else:
+            line_for_prcent += stat + ":" + str(round(results_stats_dic[stat],2)) + " "
+    
+    print(line_for_numbers)
+    print(line_for_prcent)
+    
+    # IF print_incorrect_dogs == True AND there were images incorrectly 
+    # classified as dogs or vice versa - print out these cases
+    if (print_incorrect_dogs and 
+        ( (results_stats_dic['n_correct_dogs'] + results_stats_dic['n_correct_notdogs'])
+          != results_stats_dic['n_images'] ) 
+       ):
+        print("\nINCORRECT Dog/NOT Dog Assignments:")
+        
+        for image_file in results_dic.keys():
+            if results_dic[image_file][3] ^ results_dic[image_file][4]:
+                print("Image {} of {} is clasified as {}".
+                      format(image_file, results_dic[image_file][0], results_dic[image_file][1]))
+    
+    
+    if (print_incorrect_breed and (results_stats_dic['pct_correct_breed'] < 100) ):
+        
+        print("\nINCORRECT Dog breed Assignments:")
+        
+        for image_file in results_dic.keys():
+            if ( (not results_dic[image_file][2]) and results_dic[image_file][3]):
+                print("Image {} of {} is clasified as {}".
+                      format(image_file, results_dic[image_file][0], results_dic[image_file][1]))         
