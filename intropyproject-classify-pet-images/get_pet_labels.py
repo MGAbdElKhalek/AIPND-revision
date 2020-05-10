@@ -18,6 +18,7 @@
 ##
 # Imports python modules
 from os import listdir
+import re
 
 # TODO 2: Define get_pet_labels function below please be certain to replace None
 #       in the return statement with results_dic dictionary that you create 
@@ -40,6 +41,7 @@ def creat_label_from_name(file_name):
         # alphabetic characters - if true append word
         # to pet_label separated by trailing space 
         if component.isalpha():
+            component = re.sub(r'.@#$%^&*()!~?,', '' , component)
             label += component + " "
 
     # Strip off starting/trailing whitespace characters 
